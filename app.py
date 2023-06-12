@@ -55,6 +55,7 @@ def uniqueid():
                 salpics.append(i)
     return render_template("uniqueid.html", id=id, salpics=salpics, system=system)
 
+
 @app.route("/range/", methods=['GET', 'POST'])
 def range():
     min = ""
@@ -66,7 +67,8 @@ def range():
         min = request.form['min']
         max = request.form['max']
         seat =  request.form['seat']
-        if range is not None:
+        print(min)
+        if min != '':
             # Execute a simple select query
             query = "SELECT name, seat, notes, pic FROM dbo.q1c WHERE row BETWEEN ? AND ? "
             cursor.execute(query, min, max)
@@ -75,7 +77,6 @@ def range():
             cursor.execute(query, seat)
         # Fetch the first row from the result set
         row = cursor.fetchall()
-        print(query, min, max)
         if row is None:
             system = None
         else:
