@@ -26,47 +26,56 @@ print(cursor)
 def index():
     return render_template("index.html")
 
-'''
+
 @app.route("/picture/", methods=['GET', 'POST'])
 def picture():
-    name = ""
-    picture = ""
+    return render_template("picture.html")
+
+
+@app.route("/uniqueid/", methods=['GET', 'POST'])
+def uniqueid():
+    id = ""
+    salpics = []
     system = ""
     if request.method == "POST":
-        name = request.form.get('name')
-
-        query = "SELECT Picture FROM dbo.people WHERE name = ?"
-        cursor.execute(query, name)
-
-        # Fetch the first row from the result set
-        row = cursor.fetchone()
-        if row is not None:
-            if row[0] is not None:
-                picture = row[0]
-            else:
-                picture = None
-        else:
-            system = None
-
-    return render_template("picture.html", name=name, picture=picture, system=system)
-
-
-@app.route("/group/", methods=['GET', 'POST'])
-def group():
-    salary = ""
-    salpics = []
-    if request.method == "POST":
-        salary = request.form.get('salary')
+        id = request.form.get('id')
 
         # Execute a simple select query
-        query = "SELECT Picture FROM dbo.people where Salary<?"
-        cursor.execute(query, salary)
-        # Fetch the first row from the result set
-        rows = cursor.fetchall()
-        for i in rows:
-            salpics.append(i[0])
-    return render_template("group.html", salpics=salpics)
+        query = "SELECT name, seat, pic FROM dbo.q1c WHERE row=?"
+        cursor.execute(query, id)
 
+        # Fetch the first row from the result set
+        row = cursor.fetchall()
+        print(row)
+        if not row:
+            system = None
+        else:
+            # Access row values
+            for i in range(len(row)):
+                # Assuming the table has columns named 'column1', 'column2', and 'column3'
+                salpics.append(row[i])
+    return render_template("uniqueid.html", id=id, salpics=salpics, system=system)
+
+'''
+
+
+@app.route("/pic/", methods=['GET', 'POST'])
+def pic():
+    salpics = []
+
+    # Execute a simple select query
+    query = "SELECT * FROM dbo.q0c"
+    cursor.execute(query)
+
+    row = cursor.fetchall()
+        # Fetch the first row from the result set
+
+    print(row)
+    for i in range(len(row)):
+        # Assuming the table has columns named 'column1', 'column2', and 'column3'
+        salpics.append(row[i])
+        print(row[i])
+    return render_template("table.html", salpics=salpics)
 
 @app.route("/add/", methods=['GET', 'POST'])
 def add():
