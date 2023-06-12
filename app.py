@@ -46,7 +46,6 @@ def uniqueid():
 
         # Fetch the first row from the result set
         row = cursor.fetchall()
-        print(row)
         if not row:
             system = None
         else:
@@ -55,6 +54,66 @@ def uniqueid():
                 # Assuming the table has columns named 'column1', 'column2', and 'column3'
                 salpics.append(row[i])
     return render_template("uniqueid.html", id=id, salpics=salpics, system=system)
+
+
+@app.route("/remove/", methods=['GET', 'POST'])
+def remove():
+    name = ""
+    salpics = []
+    system = ""
+    if request.method == "POST":
+        name = request.form.get('name')
+
+        # Execute a query
+        query = "SELECT * FROM dbo.q1c WHERE name=?"
+        cursor.execute(query, name)
+
+        # Fetch a single row
+        row = cursor.fetchone()
+        print(row)
+        if row is None:
+            system = None
+        else:
+            # Access row values
+            for i in range(len(row)):
+                # Assuming the table has columns named 'column1', 'column2', and 'column3'
+                salpics.append(row[i])
+
+        query = "DELETE FROM dbo.q1c WHERE name = ?"
+        cursor.execute(query, name)
+        conn.commit()
+
+    return render_template("remove.html", name=name, salpics=salpics, system=system)
+
+
+@app.route("/add/", methods=['GET', 'POST'])
+def add():
+    name = ""
+    salpics = []
+    if request.method == "POST":
+        name = request.form.get('name')
+        row = request.form.get('row')
+        seat = request.form.get('seat')
+        pic = request.form.get('pic')
+        notes = request.form.get('notes')
+
+        # Execute a query
+        query = "INSERT INTO dbo.q1c VALUES (?,?,?,?,?)"
+        cursor.execute(query, name, row, seat, pic, notes)
+        conn.commit()
+
+        query = "SELECT * FROM dbo.q1c WHERE name=?"
+        cursor.execute(query, name)
+
+        # Fetch a single row
+        row = cursor.fetchone()
+        print(row)
+        # Access row values
+        for i in range(len(row)):
+            # Assuming the table has columns named 'column1', 'column2', and 'column3'
+            salpics.append(row[i])
+
+    return render_template("add.html", salpics=salpics)
 
 '''
 
@@ -118,33 +177,7 @@ def upload(file, name):
     return "https://storageaccount1002119262.blob.core.windows.net/assignment1-container-1002119262-saarthakmudigeregirish/" + name + ".jpg"
 
 
-@app.route("/remove/", methods=['GET', 'POST'])
-def remove():
-    name = ""
-    salpics = []
-    system = ""
-    if request.method == "POST":
-        name = request.form.get('name')
 
-        # Execute a query
-        query = "SELECT * FROM dbo.people WHERE name=?"
-        cursor.execute(query, name)
-
-        # Fetch a single row
-        row = cursor.fetchone()
-        if row is None:
-            system = None
-        else:
-            # Access row values
-            for i in range(len(row)):
-                # Assuming the table has columns named 'column1', 'column2', and 'column3'
-                salpics.append(row[i])
-
-        query = "DELETE FROM dbo.people WHERE name = ?"
-        cursor.execute(query, name)
-        conn.commit()
-
-    return render_template("remove.html", name=name, salpics=salpics, system=system)
 
 
 @app.route("/keyword/", methods=['GET', 'POST'])
