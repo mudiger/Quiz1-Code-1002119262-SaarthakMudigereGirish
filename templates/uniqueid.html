@@ -24,9 +24,9 @@
                 {% for salpic in salpics %}
                 <table>
                     <tr>
-                        {% for i in salpic %}
-                        <td> {{ i }}</td>
-                        {% endfor %}
+                        <td>{{salpic[0]}}</td>
+                        <td>{{salpic[1]}}</td>
+                        <td><img src="{{salpic[2]}}"></td>
                     </tr>
                 </table>
                 {% endfor %}

@@ -50,10 +50,38 @@ def uniqueid():
             system = None
         else:
             # Access row values
-            for i in range(len(row)):
+            for i in row:
                 # Assuming the table has columns named 'column1', 'column2', and 'column3'
-                salpics.append(row[i])
+                salpics.append(i)
     return render_template("uniqueid.html", id=id, salpics=salpics, system=system)
+
+@app.route("/range/", methods=['GET', 'POST'])
+def range():
+    min = ""
+    max = ""
+    system = ""
+    salpics = []
+    seat = []
+    if request.method == "POST":
+        min = request.form['min']
+        max = request.form['max']
+        seat =  request.form['seat']
+        if range is not None:
+            # Execute a simple select query
+            query = "SELECT name, seat, notes, pic FROM dbo.q1c WHERE row BETWEEN ? AND ? "
+            cursor.execute(query, min, max)
+        else:
+            query = "SELECT name, seat, notes, pic FROM dbo.q1c WHERE seat=?"
+            cursor.execute(query, seat)
+        # Fetch the first row from the result set
+        row = cursor.fetchall()
+        print(query, min, max)
+        if row is None:
+            system = None
+        else:
+            for i in row:
+                salpics.append(i)
+    return render_template("range.html", range=range, salpics=salpics, system=system)
 
 
 @app.route("/remove/", methods=['GET', 'POST'])
