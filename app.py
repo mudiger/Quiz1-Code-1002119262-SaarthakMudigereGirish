@@ -115,128 +115,24 @@ def add():
 
     return render_template("add.html", salpics=salpics)
 
-'''
 
-
-@app.route("/pic/", methods=['GET', 'POST'])
-def pic():
-    salpics = []
-
-    # Execute a simple select query
-    query = "SELECT * FROM dbo.q0c"
-    cursor.execute(query)
-
-    row = cursor.fetchall()
-        # Fetch the first row from the result set
-
-    print(row)
-    for i in range(len(row)):
-        # Assuming the table has columns named 'column1', 'column2', and 'column3'
-        salpics.append(row[i])
-        print(row[i])
-    return render_template("table.html", salpics=salpics)
-
-@app.route("/add/", methods=['GET', 'POST'])
-def add():
+@app.route("/edit/", methods=['GET', 'POST'])
+def edit():
     name = ""
-    add = ""
-    picture = ""
-    system = ""
-    if request.method == "POST":
-        name = request.form['addname']
-        add = request.files['add']
-
-        query = "SELECT Picture FROM dbo.people WHERE name=?"
-        cursor.execute(query, name)
-
-        # Fetch the first row from the result set
-        row = cursor.fetchone()
-        if row is None:
-            system = None
-        else:
-            url = upload(add, name)
-            query = "UPDATE dbo.people SET Picture=? WHERE name = ?"
-            cursor.execute(query, url, name)
-            conn.commit()
-
-            query = "SELECT Picture FROM dbo.people WHERE name=?"
-            cursor.execute(query, name)
-
-            # Fetch the first row from the result set
-            row = cursor.fetchone()
-            picture = row[0]
-
-    return render_template("add.html", name=name, picture=picture, system=system)
-
-
-def upload(file, name):
-    account_url = "DefaultEndpointsProtocol=https;AccountName=storageaccount1002119262;AccountKey=3g3TqtLPd318jgDhHPM2llwevOb1jNHj3oN0BbaaZXiJk8T8k31aj+JIsPwL0RrPeKy28s2/mCGa+AStbbWoIQ==;EndpointSuffix=core.windows.net"
-    blob_account_client = BlobServiceClient.from_connection_string(account_url)
-    blob_client = blob_account_client.get_blob_client("assignment1-container-1002119262-saarthakmudigeregirish",name + ".jpg")
-    blob_client.upload_blob(file, overwrite=True)
-    return "https://storageaccount1002119262.blob.core.windows.net/assignment1-container-1002119262-saarthakmudigeregirish/" + name + ".jpg"
-
-
-
-
-
-@app.route("/keyword/", methods=['GET', 'POST'])
-def keyword():
-    name = ""
-    keyword = ""
-    system = ""
+    col = ""
+    ele = ""
     if request.method == "POST":
         name = request.form.get('name')
-        keyword = request.form.get('keyword')
+        col = request.form.get('col')
+        ele = request.form.get('ele')
 
-        query = "UPDATE dbo.people SET keywords=? WHERE name=?"
-        cursor.execute(query, keyword, name)
+        # Execute a simple select query
+        query = "UPDATE dbo.q1c SET ?=? WHERE name=?"
+        cursor.execute(query, col, ele, name)
         conn.commit()
 
-        query = "SELECT keywords FROM dbo.people WHERE name=?"
-        cursor.execute(query, name)
+    return render_template("edit.html", name=name, col=col, ele=ele)
 
-        # Fetch the first row from the result set
-        row = cursor.fetchone()
-        if row is not None:
-            if row[0] is not None:
-                keyword = row[0]
-            else:
-                keyword = None
-        else:
-            system = None
-
-    return render_template("keyword.html", name=name, keyword=keyword, system=system)
-
-
-@app.route("/salary/", methods=['GET', 'POST'])
-def salary():
-    name = ""
-    salary = ""
-    system = ""
-    if request.method == "POST":
-        name = request.form.get('name')
-        salary = request.form.get('salary')
-
-        query = "UPDATE dbo.people SET Salary=? WHERE name=?"
-        cursor.execute(query, salary, name)
-        conn.commit()
-
-        query = "SELECT Salary FROM dbo.people WHERE name=?"
-        cursor.execute(query, name)
-
-        # Fetch the first row from the result set
-        row = cursor.fetchone()
-        if row is not None:
-            if row[0] is not None:
-                salary = row[0]
-            else:
-                salary = None
-        else:
-            system = None
-
-    return render_template("salary.html", name=name, salary=salary, system=system)
-'''
 
 if __name__ == "__main__":
     app.run(debug=True)

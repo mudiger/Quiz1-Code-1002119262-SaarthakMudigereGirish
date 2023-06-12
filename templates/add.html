@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <title>Remove</title>
+    <title>Add</title>
 {% endblock %}
 
 {% block body %}
@@ -22,9 +22,7 @@
         </form>
 
 
-        {% if system is none %}
-            <h2> You don't exist in our system</h2>
-        {% elif salpics %}
+        {% if salpics %}
         <h2>Added row is </h2>
             <ul style="list-style-type:none">
                 <table>

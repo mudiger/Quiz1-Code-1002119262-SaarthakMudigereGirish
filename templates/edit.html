@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Edit</title>
+{% endblock %}
+
+{% block body %}
+    <div>
+        <form method="POST">
+            <label for="name">Enter name: </label>
+            <input type="text" id="name" name="name">
+            <label for="col">Enter which column to be edited: </label>
+            <input type="text" id="col" name="col">
+            <label for="ele">Enter what to be edited with: </label>
+            <input type="text" id="ele" name="ele">
+            <button type="submit">Submit</button><br>
+        </form>
+
+
+        {% if name %}
+            <h2>For {{ name }} and column {{row}}</h2>
+        {% endif %}
+        {% if ele %}
+            <h2>Edit to {{ ele }}!</h2>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
