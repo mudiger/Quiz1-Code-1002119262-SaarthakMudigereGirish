@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Display Detials</title>
+{% endblock %}
+
+{% block body %}
+
+    <div>
+        <form method="POST" >
+            <label for="id">Enter row: </label>
+            <input type="number" id="id" name="id"><br><br>
+            <input type="submit" value="Submit" placeholder="Submit"><br>
+        </form>
+
+        {% if id %}
+            <h2>{{ id }} Details</h2>
+        {% endif %}
+
+        {% if system is none %}
+            <h2> Row doesn't exist in our system</h2>
+        {% elif salpics %}
+            <ul style="list-style-type:none">
+                {% for salpic in salpics %}
+                <table>
+                    <tr>
+                        {% for i in salpic %}
+                        <td> {{ i }}</td>
+                        {% endfor %}
+                    </tr>
+                </table>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
