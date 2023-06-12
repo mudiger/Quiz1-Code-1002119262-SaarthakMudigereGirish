@@ -26,7 +26,7 @@ print(cursor)
 def index():
     return render_template("index.html")
 
-
+'''
 @app.route("/picture/", methods=['GET', 'POST'])
 def picture():
     name = ""
@@ -194,7 +194,7 @@ def salary():
             system = None
 
     return render_template("salary.html", name=name, salary=salary, system=system)
-
+'''
 
 if __name__ == "__main__":
     app.run(debug=True)
