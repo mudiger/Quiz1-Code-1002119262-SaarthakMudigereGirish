@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Remove</title>
+{% endblock %}
+
+{% block body %}
+    <div>
+        <form method="POST">
+            <h2>Please enter details</h2>
+            <label for="name">Enter name: </label>
+            <input type="text" id="name" name="name">
+            <label for="row">Enter row: </label>
+            <input type="number" id="row" name="row">
+            <label for="seat">Enter seat: </label>
+            <input type="text" id="seat" name="seat">
+            <label for="pic">Enter picture: </label>
+            <input type="text" id="pic" name="pic">
+            <label for="notes">Enter notes: </label>
+            <input type="text" id="notes" name="notes">
+            <button type="submit">Submit</button><br>
+        </form>
+
+
+        {% if system is none %}
+            <h2> You don't exist in our system</h2>
+        {% elif salpics %}
+        <h2>Added row is </h2>
+            <ul style="list-style-type:none">
+                <table>
+                    <tr>
+                        {% for salpic in salpics %}
+                        <td> {{ salpic }}</td>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </ul>
+        {% endif %}
+
+    </div>
+
+{% endblock %}

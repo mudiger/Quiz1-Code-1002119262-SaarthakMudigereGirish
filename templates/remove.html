@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Remove</title>
+{% endblock %}
+
+{% block body %}
+    <div>
+        <form method="POST">
+            <label for="name">Enter name to delete the row: </label>
+            <input type="text" id="name" name="name">
+            <button type="submit">Submit</button><br>
+        </form>
+
+        {% if name %}
+            <h2>Hello {{ name }}!</h2>
+        {% endif %}
+
+        {% if system is none %}
+            <h2> You don't exist in our system</h2>
+        {% elif salpics %}
+        <h2>Deleting row  with name {{ name }}</h2>
+            <ul style="list-style-type:none">
+                <table>
+                    <tr>
+                        {% for salpic in salpics %}
+                        <td> {{ salpic }}</td>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </ul>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
